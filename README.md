@@ -1,1 +1,1 @@
-# fullstackpalautukset
+# Fullstack-kurssin viikkopalautukset
