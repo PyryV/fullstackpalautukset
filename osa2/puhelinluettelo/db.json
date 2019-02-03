@@ -1,0 +1,16 @@
+{
+  "persons": [
+    { 
+      "name": "Arto Hellas",
+      "number": "040-1234567" 
+    },
+    {
+      "name": "Ari Arila",
+      "number": "050-1234567"
+    },
+    {
+      "name": "Puuha Pete",
+      "number": "040-0000001"
+    }
+  ]
+}   
