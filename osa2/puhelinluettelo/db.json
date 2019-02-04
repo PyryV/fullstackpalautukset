@@ -1,16 +1,19 @@
 {
   "persons": [
-    { 
-      "name": "Arto Hellas",
-      "number": "040-1234567" 
+    {
+      "name": "Allu",
+      "number": "040-1234567",
+      "id": "Allu"
     },
     {
-      "name": "Ari Arila",
-      "number": "050-1234567"
+      "name": "Ville",
+      "number": "050-1234567",
+      "id": "Ville"
     },
     {
-      "name": "Puuha Pete",
-      "number": "040-0000001"
+      "name": "Vili",
+      "number": "040-1111111",
+      "id": "Vili"
     }
   ]
-}   
+}

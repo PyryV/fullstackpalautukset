@@ -1,17 +1,17 @@
 import React from 'react'
+import personService from '../services/persons'
 
-const Person = ({ name,number,filter }) => {
-  if(name.toUpperCase().startsWith(filter.toUpperCase())|| filter ==='') {
-    return (
-      <div>
-      <p>{name} {number}</p>
-      </div>
-    )
-  } 
+const Person = ({ name,number,persons,setPersons }) => {
+
+
+  
   return (
-    <>
-    </>
+    <div>
+      {name} {number} 
+    </div>
   )
+
+
 }
 
 export default Person
