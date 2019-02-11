@@ -17,30 +17,28 @@ const PersonForm = ({
   const addPerson = (event) => {
     event.preventDefault()
 
-    if(persons !== undefined) {
-      var a = false;
-      for(var i=0; i<persons.length; i++) {
-        if(persons[i]['name'] === newName) a = true
-      }
-    }
+    const exPerson = persons.find(person => person.name === newName)
 
 
-    if(a) {
-      var er = true
+    if(exPerson) {
+      
       if(window.confirm(`${newName} on jo luettelossa. Korvataanko numero uudella?`)) {
-        const person = {
-          name: newName,
-          number: newNumber,
-          id: newName
-        }
+      
         personService
-          .update(newName, person).then(response => {
-            setPersons(persons.map(person => person.id !== newName ? person : response))
+          .update({
+            ...exPerson,
+            number: newNumber
+          })
+          .then( updatedPerson => {
+            setPersons(persons.map(person => person.name === newName ? updatedPerson : person))
             setNewName('')
             setNewNumber('')
+            setMessage(`${newName} muutettu onnistuneesti`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 3000)
           })
           .catch(error => {
-            er = false
             setErrorMsg(`${newName} oli jo poistettu luettelosta`)
             setTimeout(() => {
               setErrorMsg(null)
@@ -48,12 +46,6 @@ const PersonForm = ({
             setPersons(removeFromPersons)
             
           })
-        if(er) {
-          setMessage(`${newName} muutettu onnistuneesti`)
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
-        }
 
           
       }
@@ -84,10 +76,13 @@ const PersonForm = ({
 
   const removePerson = (event) => {
     event.preventDefault()
-
+    var person
     var a = false;
     for(var i=0; i<persons.length; i++) {
-      if(persons[i]['name'] === rName) a = true
+      if(persons[i]['name'] === rName) {
+        a = true
+        const person = persons[i]
+      } 
     }
     if(persons.length === 1) {
       persons = []
@@ -95,14 +90,14 @@ const PersonForm = ({
 
     if(a) {
       personService
-        .remove(rName)
+        .remove(person.id)
       personService
         .getAll()
         .then(response => {
           console.log('promise fullfilled')
           console.log(response.data)
           
-          setPersons(removeFromPersons())
+          setPersons(persons.filter(person => person.name !== rName))
           console.log(persons)
           setRName('')
           setMessage(`${newName} poistettu onnistuneesti`)
