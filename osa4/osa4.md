@@ -1,1 +1,1 @@
-[blogilista](https://github.com/username/repo)
+[blogilista](https://github.com/PyryV/blogilista)
