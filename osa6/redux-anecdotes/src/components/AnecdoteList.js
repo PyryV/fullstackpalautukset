@@ -1,10 +1,24 @@
 import React from 'react'
 import { voteFor } from '../reducers/anecdoteReducer'
+import { notificationChange } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
+import Notification from './Notification'
+import Filter from './Filter'
 
 const AnecdoteList = (props) => {
-  const anecdotes = props.store.getState()
-  const vote = (id) => {
-    props.store.dispatch(voteFor(id))
+  const filteredAnecdotes = () => {
+    if (props.aFilter === '') {
+      return props.anecdotes
+    }
+    return props.anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(props.filter.toLowerCase()))
+  }
+  const vote = (anecdote) => {
+    props.anecdotes(voteFor(anecdote.id))
+    props.anecdotes(notificationChange(`You voted for: ${anecdote.content}`))
+    setTimeout(() => {
+      props.store.dispatch(notificationChange(null))
+    }, 5000)
+    
   }
   
   const sorter = (a,b) => {
@@ -12,18 +26,22 @@ const AnecdoteList = (props) => {
     if(a.votes < b.votes) return 1
     return 0
   }
+
+  
   
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.sort(sorter).map(anecdote =>
+      <Notification store={props.store} />
+      <Filter store={props.aFilter}/>
+      {filteredAnecdotes().sort(sorter).map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       )}
@@ -31,4 +49,22 @@ const AnecdoteList = (props) => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    aFilter: state.filter,
+    noification: state.notification
+  }
+}
+
+const mapDispatchToProps = {
+  voteFor,
+  notificationChange,
+}
+
+const ConnectedAnecdotes = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdotes
