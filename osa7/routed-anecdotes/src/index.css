@@ -1,0 +1,7 @@
+.notification {
+  color: rgb(32, 88, 0);
+  font-size: 12px;
+  border-style: solid;
+  border-radius: 2px;
+  background: rgb(197, 255, 88);
+}
